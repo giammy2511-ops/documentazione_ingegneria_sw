@@ -163,4 +163,3 @@ Poi salva il corpo dati e riallinea attivi/archivi.
 - Eliminare un **tipo visita** può rendere inattivo e poi eliminabile un luogo (se resta senza visite) e può eliminare volontari “orfani”.
 - Eliminare un **volontario** può portare alla rimozione dei tipi visita che restano senza guide.
 
-> Nota critica: questa logica è molto aggressiva. È coerente con l’idea di rimuovere dati non più validi, ma può sorprendere un utente perché l’effetto finale può essere più ampio della richiesta iniziale.
