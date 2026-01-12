@@ -22,14 +22,7 @@ L’applicazione scorre i luoghi e i tipi visita e mostra quelli in cui il nickn
 
 ## 5.5 Inserimento disponibilità mensili
 
-### 5.5.1 Scelta del mese
-Il volontario sceglie fra:
-- mese “target” corrente del sistema;
-- (eventualmente) mese successivo (dipende dalle opzioni mostrate dal menù di scelta mese).
-
-Nel codice il mese è costruito a partire da `StatoSistema.meseRaccolta` e dal calendario corrente.
-
-### 5.5.2 Vincoli sulle date selezionabili
+### 5.5.1 Vincoli sulle date selezi
 Una data può essere aggiunta come disponibilità solo se:
 - appartiene al mese selezionato;
 - **non** è una data preclusa globale (`datePrecluse.txt`);
@@ -40,23 +33,43 @@ Le disponibilità sono salvate su file in `disponibilitaVolontari.txt` e rilette
 
 ### 5.5.3 Esempio di interazione (semplificato)
 ```
-Menù volontario
-1) Visualizza tipi visita associati
-2) Inserisci disponibilità per un mese
-...
+Disponibilità FEBBRAIO 2026
+--------------------------------
+1	Aggiungi una data di disponibilità
+2	Visualizza disponibilità inserite
+3	Visualizza date precluse del mese
 
-> 2
-Scegli mese: 1) FEBBRAIO 2026  2) MARZO 2026
-> 1
-Inserire giorno (1..28): > 12
-Disponibilità aggiunta: 2026-02-12
+0	Esci
+
+Digita il numero dell'opzione desiderata > 1
+--------------------------------
+Scegli una data di disponibilità (0 = termina)
+--------------------------------
+1	2026-02-02
+2	2026-02-04
+3	2026-02-07
+4	2026-02-09
+5	2026-02-11
+6	2026-02-13
+7	2026-02-14
+8	2026-02-15
+9	2026-02-16
+10	2026-02-17
+11	2026-02-18
+12	2026-02-20
+13	2026-02-21
+14	2026-02-22
+15	2026-02-23
+16	2026-02-24
+17	2026-02-25
+18	2026-02-27
+19	2026-02-28
+
+0	Esci
+
+Digita il numero dell'opzione desiderata > 4
+Disponibilità aggiunta per: 2026-02-09
 ```
 
 ## 5.6 Visualizzazione visite e codici di prenotazione
 Il volontario ha una voce “visualizza piano”. Il metodo invocato stampa un riepilogo della visita istanza usando `toStringPerVolontario`.
-
-⚠️ **Limite/bug rilevato nel codice**  
-La funzione è denominata come se mostrasse “visite confermate”, ma il filtro sugli stati include solo `proposta` e `completa` (e ripete `proposta` due volte), escludendo `confermata`. Risultato plausibile:
-- quando una visita passa a `confermata` (3 giorni prima), potrebbe **sparire** dalla vista volontario.
-
-Se la consegna richiede la vista delle confermate con codici, questa parte va considerata **non pienamente implementata** oppure affetta da un errore nel filtro stati.
