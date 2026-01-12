@@ -40,4 +40,4 @@ Questo evita che dati vecchi interferiscano con piani futuri.
 - `tipiVisitaScaduti`: tipi visita non più attivi (in base alla data fine rispetto a “oggi”);
 - `istanzeEffettuate`: visite confermate che, dopo la data, sono marcate `effettuata` e spostate in archivio.
 
-Nota: le visite `cancellata` non vengono archiviate; dopo la data vengono rimosse dal piano.
+

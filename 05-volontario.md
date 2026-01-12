@@ -31,7 +31,7 @@ Una data può essere aggiunta come disponibilità solo se:
 
 Le disponibilità sono salvate su file in `disponibilitaVolontari.txt` e rilette ad ogni avvio/operazione.
 
-### 5.5.3 Esempio di interazione (semplificato)
+### 5.5.2 Esempio di interazione (semplificato)
 ```
 Disponibilità FEBBRAIO 2026
 --------------------------------
