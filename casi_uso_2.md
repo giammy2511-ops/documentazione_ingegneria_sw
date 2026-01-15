@@ -546,16 +546,3 @@
 - **Requisiti/slide:** riferimenti non forniti in questa chat.
 
 ---
-
-# Scostamenti e ambiguità
-
-1. **Ruolo “fruitore” presente nei modelli ma non nei flussi reali**
-   - In `Utente` si cita `"fruitore"` e `DatiGenerali` contiene `maxPersoneIscrivibiliDaFruitore`, ma `Main.avviaMenu()` gestisce solo `"configuratore"` e `"volontario"`.  
-   - Impatto: eventuali UC del fruitore **non sono derivabili da codice** e andrebbero marcati “da requisiti” solo se mi fornisci documenti che li descrivono.
-
-2. **“Garantire che i DatiGenerali siano presenti prima di avviare i menu” non è realmente garantito**
-   - Commento in `Main` dichiara questa intenzione, ma il codice: se i dati generali mancano e accede un volontario, stampa un messaggio e **prosegue comunque** ad avviare `MenuVolontario`.  
-   - Impatto: la precondizione “dati generali presenti” non è enforced.
-
-3. **Stati visita (proposta/completa/confermata/cancellata/effettuata) non implementati nei menu**
-   - Esiste l’enum `StatiVisita`, ma `MenuConfiguratore.mostraStatoVisite()` stampa “Versione 2: stati non ancora gestiti” e non ci sono UC operativi di transizione/gestione stati.
