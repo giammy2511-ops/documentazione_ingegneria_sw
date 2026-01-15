@@ -20,27 +20,27 @@
 
 # Elenco casi d’uso
 
-| ID   | Titolo | Attore primario | Priorità | Stato |
-|------|--------|------------------|----------|-------|
-| UC01 | Accedere al sistema come configuratore/volontario | Configuratore / Volontario | Alta | da codice |
-| UC02 | Cambiare credenziali al primo accesso | Configuratore / Volontario | Media | da codice |
-| UC03 | Accedere o registrarsi come fruitore | Fruitore | Alta | da codice |
-| UC04 | Inizializzare dati generali del sistema | Configuratore | Alta | da codice |
-| UC05 | Creare luogo con prima visita obbligatoria | Configuratore | Alta | da codice |
-| UC06 | Creare tipo visita e associarlo a luogo (esistente o nuovo) | Configuratore | Alta | da codice |
-| UC07 | Inserire e consultare date precluse | Configuratore | Media | da codice |
-| UC08 | Modificare numero massimo iscrivibili da un fruitore | Configuratore | Media | da codice |
-| UC09 | Visualizzare tipi visita associati | Volontario | Media | da codice |
-| UC10 | Inserire disponibilità nel mese di raccolta | Volontario | Alta | da codice |
-| UC11 | Chiudere raccolta disponibilità del mese | Configuratore | Alta | da codice |
-| UC12 | Produrre piano visite del mese | Configuratore | Alta | da codice |
-| UC13 | Visualizzare visite (per fruitore o globali) | Fruitore | Alta | da codice |
-| UC14 | Iscriversi a una visita proposta | Fruitore | Alta | da codice |
-| UC15 | Disdire iscrizione tramite codice | Fruitore | Media | da codice |
-| UC16 | Consultare stato visite e piano prodotto | Configuratore | Media | da codice |
-| UC17 | Rimuovere luogo/tipo visita/volontario con cascata | Configuratore | Media | da codice |
-| UC18 | Visualizzare piano visite associate al volontario | Volontario | Media | da codice |
-| UC19 | Visualizzare archivio storico | Configuratore | Bassa | da codice |
+| ID   | Titolo | Attore primario |
+|------|--------|------------------|
+| UC01 | Accedere al sistema come configuratore/volontario | Configuratore / Volontario 
+| UC02 | Cambiare credenziali al primo accesso | Configuratore / Volontario 
+| UC03 | Accedere o registrarsi come fruitore | Fruitore 
+| UC04 | Inizializzare dati generali del sistema | Configuratore 
+| UC05 | Creare luogo con prima visita obbligatoria | Configuratore 
+| UC06 | Creare tipo visita e associarlo a luogo (esistente o nuovo) | Configuratore 
+| UC07 | Inserire e consultare date precluse | Configuratore 
+| UC08 | Modificare numero massimo iscrivibili da un fruitore | Configuratore 
+| UC09 | Visualizzare tipi visita associati | Volontario 
+| UC10 | Inserire disponibilità nel mese di raccolta | Volontario 
+| UC11 | Chiudere raccolta disponibilità del mese | Configuratore 
+| UC12 | Produrre piano visite del mese | Configuratore 
+| UC13 | Visualizzare visite (per fruitore o globali) | Fruitore 
+| UC14 | Iscriversi a una visita proposta | Fruitore 
+| UC15 | Disdire iscrizione tramite codice | Fruitore 
+| UC16 | Consultare stato visite e piano prodotto | Configuratore 
+| UC17 | Rimuovere luogo/tipo visita/volontario con cascata | Configuratore 
+| UC18 | Visualizzare piano visite associate al volontario | Volontario 
+| UC19 | Visualizzare archivio storico | Configuratore 
 
 ---
 
@@ -62,17 +62,6 @@
 5. In caso di successo, il sistema verifica se l’utente è al **primo accesso**.
 6. Il sistema (se necessario) avvia la procedura di cambio credenziali (UC02).
 7. Il sistema verifica/presenta i dati generali (UC04) e avvia il menu del ruolo.
-
-### Flussi alternativi / eccezioni
-- **A1 — Credenziali errate o utente non attivo**:  
-  1. Condizione: username/password non trovati **oppure** volontario `attivo=false`.  
-  2. Passi: il sistema stampa messaggio di errore e richiede nuovamente le credenziali.  
-  3. Esito: accesso non effettuato finché non vengono inserite credenziali valide.
-
-- **A2 — Errore I/O in avvio**:  
-  1. Condizione: errore durante `GestoreDati.caricaDaDirectory("./DATA")`.  
-  2. Passi: il sistema stampa stack trace.  
-  3. Esito: avvio degradato/terminazione anomala.
 
 ### Regole di business / vincoli
 - RB1: un volontario può autenticarsi solo se `attivo=true` (volontari disattivati automaticamente se non associati a visite attive).
@@ -107,21 +96,6 @@
 5. Il sistema aggiorna l’oggetto `Utente` e salva su file.
 6. Il sistema conferma l’avvenuto aggiornamento.
 
-### Flussi alternativi / eccezioni
-- **A1 — Username già esistente (non volontario)**:  
-  1. Condizione: l’attore (non volontario) inserisce uno username già presente.  
-  2. Passi: il sistema segnala errore e richiede reinserimento.  
-  3. Esito: aggiornamento non eseguito finché non valido.
-
-- **A2 — Password uguale alla precedente**:  
-  1. Condizione: nuova password = vecchia password.  
-  2. Passi: il sistema richiede una password diversa.  
-  3. Esito: aggiornamento sospeso finché non valido.
-
-- **A3 — Errore di persistenza**:  
-  1. Condizione: `FileIO.salvaUtenti()` fallisce.  
-  2. Passi: il sistema stampa errore/stack trace.  
-  3. Esito: aggiornamento fallito.
 
 ### Regole di business / vincoli
 - RB1: i volontari **non possono** cambiare username, solo password.
@@ -155,21 +129,6 @@
 3. Il sistema autentica e verifica che il ruolo sia `fruitore`.
 4. Il sistema avvia il menu fruitore.
 
-### Flussi alternativi / eccezioni
-- **A1 — Credenziali errate o ruolo diverso**:  
-  1. Condizione: autenticazione fallisce o utente non ha ruolo `fruitore`.  
-  2. Passi: il sistema mostra messaggio e propone di riprovare o registrarsi.  
-  3. Esito: accesso non effettuato.
-
-- **A2 — Registrazione con username già esistente**:  
-  1. Condizione: username scelto è già presente.  
-  2. Passi: il sistema propone di reinserire username o tornare indietro.  
-  3. Esito: registrazione non completata finché non valido.
-
-- **A3 — Errore di salvataggio in registrazione**:  
-  1. Condizione: fallisce `GestoreDati.creaFruitore()` / `FileIO.salvaUtenti()`.  
-  2. Passi: il sistema mostra errore.  
-  3. Esito: utente non creato.
 
 ### Regole di business / vincoli
 - RB1: username fruitore deve essere univoco (vincolo su `utenti`).
@@ -203,16 +162,6 @@
 4. Il sistema chiede **numero massimo iscrivibili da fruitore**.
 5. Il sistema salva i dati generali su `generale.txt`.
 
-### Flussi alternativi / eccezioni
-- **A1 — Utente non configuratore e dati mancanti**:  
-  1. Condizione: dati generali assenti e utente non è configuratore.  
-  2. Passi: il sistema informa e riporta al menu di benvenuto.  
-  3. Esito: dati non inizializzati.
-
-- **A2 — Errore di persistenza**:  
-  1. Condizione: fallisce `FileIO.salvaDatiGenerali()`.  
-  2. Passi: stampa errore/stack trace.  
-  3. Esito: dati non salvati.
 
 ### Regole di business / vincoli
 - RB1: solo il configuratore può inizializzare il sistema se mancano i dati generali.
@@ -249,28 +198,6 @@
 6. Il sistema prova ad aggiungere la visita tramite `GestoreCalendario.aggiungiVisita()` (vincolo anti-overlap nello stesso luogo).
 7. Se non ci sono sovrapposizioni, il sistema salva visita e aggiorna persistenza.
 8. Il sistema conferma creazione luogo+visita.
-
-### Flussi alternativi / eccezioni
-- **A1 — Luogo duplicato (stesso nome+coordinate)**:  
-  1. Condizione: ID già presente tra i luoghi.  
-  2. Passi: il sistema chiede di reinserire i dati del luogo.  
-  3. Esito: luogo non creato finché non univoco.
-
-- **A2 — Overlap tra visite nello stesso luogo**:  
-  1. Condizione: `GestoreCalendario.aggiungiVisita()` restituisce `false`.  
-  2. Passi: il sistema mostra “OVERLAP rilevato” e permette di reinserire **solo scheduling** (date/ora/durata/giorni) oppure annullare.  
-  3. Esito: se si corregge scheduling, riprova; se si annulla, il luogo viene rimosso.
-
-- **A3 — Annullamento durante creazione visita**:  
-  1. Condizione: la visita risulta `null` (nel codice esiste ramo che gestisce questa possibilità).  
-  2. Passi: il sistema rimuove il luogo appena creato e salva i luoghi.  
-  3. Esito: nessuna creazione completata.  
-  > Nota: nel codice attuale `creaVisita()` non ritorna mai `null`; questo ramo sembra “difensivo” ma non è attivabile dai flussi visibili.
-
-- **A4 — Errore di persistenza**:  
-  1. Condizione: fallisce `FileIO.salvaLuoghi()` o `FileIO.salvaVisite()`.  
-  2. Passi: stampa stack trace.  
-  3. Esito: creazione parziale o fallita.
 
 ### Regole di business / vincoli
 - RB1: un luogo è “valido” nel setup solo se ha almeno una visita associata.
@@ -312,31 +239,6 @@
 4. Il sistema tenta di aggiungere il tipo visita verificando overlap nel luogo.
 5. Se valido, salva visite e luoghi.
 
-### Flussi alternativi / eccezioni
-- **A1 — Titolo già usato nel luogo**:  
-  1. Condizione: esiste già visita con stesso titolo nel luogo (case-insensitive).  
-  2. Passi: il sistema richiede reinserimento titolo.  
-  3. Esito: prosegue solo con titolo univoco.
-
-- **A2 — Nessun volontario selezionato**:  
-  1. Condizione: l’attore prova a terminare selezione senza aver scelto nessuno.  
-  2. Passi: il sistema impone “Devi selezionare almeno un volontario”.  
-  3. Esito: obbligo di selezione minima.
-
-- **A3 — Nessun giorno selezionato**:  
-  1. Condizione: l’attore termina scelta giorni senza averne selezionato alcuno.  
-  2. Passi: il sistema impone “Devi selezionare almeno un giorno”.  
-  3. Esito: obbligo di selezione minima.
-
-- **A4 — Overlap nello stesso luogo**:  
-  1. Condizione: `GestoreCalendario.aggiungiVisita()` fallisce.  
-  2. Passi: il sistema propone reinserimento del solo scheduling o annullamento.  
-  3. Esito: visita inserita solo dopo scheduling compatibile.
-
-- **A5 — Creazione “nuovo volontario” con username già esistente**:  
-  1. Condizione: username già presente.  
-  2. Passi: il sistema chiede un username diverso.  
-  3. Esito: volontario creato solo con username univoco.
 
 ### Regole di business / vincoli
 - RB1: un tipo visita è identificato da `idTipoVisita` derivato da `idLuogo + titolo`.
@@ -373,21 +275,6 @@
 5. Il sistema verifica che la data non sia già presente.
 6. Il sistema aggiunge la data e la appende al file `datePrecluse.txt`.
 
-### Flussi alternativi / eccezioni
-- **A1 — Data già preclusa**:  
-  1. Condizione: data già presente nel set.  
-  2. Passi: il sistema informa e non duplica.  
-  3. Esito: nessuna modifica.
-
-- **A2 — Consultazione senza dati**:  
-  1. Condizione: nessuna data preclusa per quel mese.  
-  2. Passi: il sistema stampa messaggio “Non ci sono date…”.  
-  3. Esito: consultazione vuota.
-
-- **A3 — Errore I/O**:  
-  1. Condizione: fallisce `appendDataPreclusa()`.  
-  2. Passi: stack trace.  
-  3. Esito: possibile incoerenza tra memoria e file.
 
 ### Regole di business / vincoli
 - RB1: le date precluse vengono escluse sia dalla selezione disponibilità volontari sia dalla produzione del piano.
@@ -420,11 +307,6 @@
 2. L’attore inserisce il nuovo valore massimo.
 3. Il sistema salva `DatiGenerali(ambito, nuovoMax)` su file.
 
-### Flussi alternativi / eccezioni
-- **A1 — Errore I/O**:  
-  1. Condizione: fallisce lettura/scrittura.  
-  2. Passi: stack trace.  
-  3. Esito: nessun aggiornamento garantito.
 
 ### Regole di business / vincoli
 - RB1: il valore è usato per vincolare `numPersone` in UC14 (range 1..max).
@@ -455,12 +337,6 @@
 1. L’attore seleziona la voce di menu.
 2. Il sistema cerca, nei luoghi e nelle visite associate, quelle che contengono il nickname del volontario.
 3. Il sistema stampa i dettagli semplificati delle visite trovate.
-
-### Flussi alternativi / eccezioni
-- **A1 — Nessuna visita associata**:  
-  1. Condizione: lista vuota.  
-  2. Passi: il sistema stampa “Non risulti associato…”.  
-  3. Esito: consultazione vuota.
 
 ### Regole di business / vincoli
 - RB1: l’associazione è data dall’inclusione del nickname in `Visita.volontari`.
@@ -499,11 +375,6 @@
 6. L’attore seleziona una data.
 7. Il sistema salva la data nella mappa disponibilità e persiste su file.
 
-### Flussi alternativi / eccezioni
-- **A1 — Raccolta chiusa**:  
-  1. Condizione: `stato.isRaccoltaAperta()==false`.  
-  2. Passi: il sistema informa e termina l’operazione.  
-  3. Esito: nessuna disponibilità aggiunta.
 
 - **A2 — Nessun tipo programmabile nel mese**:  
   1. Condizione: nessuna visita associata risulta programmabile in alcun giorno del mese.  
@@ -553,22 +424,6 @@
 4. Se nessuna disponibilità, il sistema chiede conferma esplicita per chiudere comunque.
 5. Il sistema chiude la raccolta e salva lo stato.
 
-### Flussi alternativi / eccezioni
-- **A1 — Raccolta già chiusa**:  
-  1. Condizione: `raccoltaAperta=false`.  
-  2. Passi: messaggio “Raccolta già chiusa…”.  
-  3. Esito: nessuna modifica.
-
-- **A2 — Piano già prodotto**:  
-  1. Condizione: `pianoProdotto=true`.  
-  2. Passi: messaggio informativo.  
-  3. Esito: nessuna modifica.
-
-- **A3 — Fuori finestra temporale**:  
-  1. Condizione: oggi non è nella finestra prevista per il `meseRaccolta`.  
-  2. Passi: eccezione/errore (“Fuori finestra…”).  
-  3. Esito: chiusura negata.
-
 ### Regole di business / vincoli
 - RB1: la chiusura è consentita solo in una finestra temporale calcolata rispetto a `meseRaccolta` (16 del mese-2 → 15 del mese-1).
 - RB2: la chiusura può avvenire anche senza disponibilità, ma solo con conferma.
@@ -611,27 +466,6 @@
 6. Il sistema marca `pianoProdotto=true` e salva lo stato sistema.
 7. Il sistema elimina dai file le disponibilità e le date precluse fino al mese incluso (`dimenticaDatiFinoAlMeseIncluso`).
 
-### Flussi alternativi / eccezioni
-- **A1 — Raccolta ancora aperta**:  
-  1. Condizione: `raccoltaAperta=true`.  
-  2. Passi: messaggio “Prima devi chiudere…”.  
-  3. Esito: piano non prodotto.
-
-- **A2 — Piano già prodotto**:  
-  1. Condizione: `pianoProdotto=true`.  
-  2. Passi: il sistema rilegge e restituisce il piano esistente.  
-  3. Esito: nessuna rigenerazione.
-
-- **A3 — Fuori finestra temporale**:  
-  1. Condizione: oggi fuori finestra per il mese.  
-  2. Passi: eccezione con intervallo consentito.  
-  3. Esito: piano non prodotto.
-
-- **A4 — Nessun volontario disponibile**:  
-  1. Condizione: per un tipo visita in un giorno non si trova volontario disponibile.  
-  2. Passi: quell’istanza non viene creata (silenziosamente).  
-  3. Esito: piano potenzialmente “scarno”.
-
 ### Regole di business / vincoli
 - RB1: una guida/volontario non può essere assegnato a più visite nello stesso giorno.
 - RB2: le date precluse sono escluse.
@@ -666,17 +500,6 @@
    - vista globale: `proposta`, `confermata`, `cancellata`;
    - “mie visite”: `proposta`, `completa`, `confermata`, `cancellata` e solo se il fruitore risulta iscritto.
 4. Il sistema stampa i dettagli della visita (se tipo visita è reperibile).
-
-### Flussi alternativi / eccezioni
-- **A1 — Piano mancante o vuoto**:  
-  1. Condizione: nessuna istanza.  
-  2. Passi: stampa “Nessuna visita da visualizzare.”  
-  3. Esito: consultazione vuota.
-
-- **A2 — Tipo visita non trovato**:  
-  1. Condizione: `trovaTipoVisita()` restituisce `null`.  
-  2. Passi: l’istanza viene saltata o stampata con dettagli ridotti (dipende dal metodo).  
-  3. Esito: informazioni incomplete.
 
 ### Regole di business / vincoli
 - RB1: aggiornamento stati automatico: a chiusura iscrizioni (3 giorni prima) e dopo la data visita (effettuata/archiviazione o rimozione cancellate).
@@ -719,32 +542,6 @@
 6. Se la capienza diventa piena, il sistema imposta lo stato istanza a `completa`.
 7. Il sistema salva il piano e stampa il codice.
 
-### Flussi alternativi / eccezioni
-- **A1 — Nessuna visita disponibile**:  
-  1. Condizione: lista iscrivibili vuota.  
-  2. Passi: messaggio informativo.  
-  3. Esito: iscrizione non possibile.
-
-- **A2 — Dati generali mancanti**:  
-  1. Condizione: `leggiDatiGenerali()` restituisce `null`.  
-  2. Passi: messaggio “Dati generali mancanti…”.  
-  3. Esito: iscrizione negata.
-
-- **A3 — Iscrizioni chiuse (3 giorni prima)**:  
-  1. Condizione: oggi non è prima della data di chiusura (dataVisita-3).  
-  2. Passi: errore con data di chiusura.  
-  3. Esito: iscrizione negata.
-
-- **A4 — Fruitore già iscritto alla stessa visita**:  
-  1. Condizione: esiste già iscrizione con `usernameFruitore` sull’istanza.  
-  2. Passi: errore “Sei già iscritto…”.  
-  3. Esito: iscrizione negata.
-
-- **A5 — Posti insufficienti**:  
-  1. Condizione: `numPersone > postiRimasti`.  
-  2. Passi: errore con posti disponibili rimasti.  
-  3. Esito: iscrizione negata.
-
 ### Regole di business / vincoli
 - RB1: iscrizioni chiudono **3 giorni prima** della data visita.
 - RB2: iscrizione solo su stato `proposta` (non su `confermata`, `cancellata`, ecc.).
@@ -785,22 +582,6 @@
    4. salva il piano.
 6. Il sistema conferma la disdetta.
 
-### Flussi alternativi / eccezioni
-- **A1 — Codice non trovato / non valido**:  
-  1. Condizione: nessuna iscrizione col codice.  
-  2. Passi: messaggio “Codice non valido, non trovato…”.  
-  3. Esito: nessuna modifica.
-
-- **A2 — Disdetta non consentita (troppo tardi)**:  
-  1. Condizione: oggi non è prima di (dataVisita-3).  
-  2. Passi: il sistema non consente e continua a cercare altre (di fatto esclude).  
-  3. Esito: disdetta negata.
-
-- **A3 — Codice appartenente a un altro fruitore**:  
-  1. Condizione: codice trovato ma username diverso.  
-  2. Passi: il sistema solleva errore “Operazione negata…”.  
-  3. Esito: nessuna modifica.
-
 ### Regole di business / vincoli
 - RB1: disdetta possibile solo prima della chiusura iscrizioni (3 giorni prima).
 - RB2: disdetta possibile solo se l’istanza è `proposta` o `completa`.
@@ -839,17 +620,6 @@
 2. Il sistema legge e ordina le istanze per data e id tipo visita.
 3. Il sistema stampa per ogni istanza: data, idTipoVisita, volontario, stato.
 
-### Flussi alternativi / eccezioni
-- **A1 — Piano non prodotto / vuoto**:  
-  1. Condizione: lista istanze vuota.  
-  2. Passi: messaggio “piano vuoto” o “stato non disponibile…”.  
-  3. Esito: consultazione vuota.
-
-- **A2 — Errore I/O**:  
-  1. Condizione: fallisce `leggiPianoVisite()`.  
-  2. Passi: errore.  
-  3. Esito: consultazione fallita.
-
 ### Regole di business / vincoli
 - RB1: gli stati sono quelli definiti da `StatiVisita`.
 
@@ -886,27 +656,6 @@
    - rimuove volontari non più associati a nessun tipo visita.
 6. Il sistema salva utenti/luoghi/visite e sincronizza attività/archivio.
 
-### Flussi alternativi / eccezioni
-- **A1 — Piano non prodotto**:  
-  1. Condizione: `pianoProdotto=false`.  
-  2. Passi: messaggio “Prima devi produrre il piano…”.  
-  3. Esito: rimozione negata.
-
-- **A2 — Nessun elemento disponibile** (es. nessun luogo attivo / nessun tipo visita attivo / nessun volontario):  
-  1. Condizione: liste vuote.  
-  2. Passi: messaggio informativo.  
-  3. Esito: nessuna operazione.
-
-- **A3 — Conferma negata**:  
-  1. Condizione: l’attore risponde “no”.  
-  2. Passi: operazione annullata.  
-  3. Esito: nessuna modifica.
-
-- **A4 — Errore I/O**:  
-  1. Condizione: falliscono salvataggi.  
-  2. Passi: errore.  
-  3. Esito: rischio incoerenza; non garantito.
-
 ### Regole di business / vincoli
 - RB1: rimozioni con cascata possono eliminare ulteriori entità rese “orfane”.
 - RB2: dopo rimozioni si ricalcolano `attivo` su luoghi e volontari in base alle visite attive.
@@ -939,17 +688,6 @@
 3. Il sistema filtra le istanze con `nomeVolontario == nicknameVolontario` e stato in `{confermata, proposta, completa}`.
 4. Il sistema stampa dettagli per ciascuna istanza, includendo elenco iscritti (codice → numero persone).
 
-### Flussi alternativi / eccezioni
-- **A1 — Piano non prodotto**:  
-  1. Condizione: `StatoSistema.pianoProdotto=false` (controllato con logica a messaggi).  
-  2. Passi: stampa “Piano non prodotto.”  
-  3. Esito: consultazione non disponibile.
-
-- **A2 — Nessuna visita assegnata**:  
-  1. Condizione: piano prodotto ma nessuna istanza per il volontario.  
-  2. Passi: stampa “Non hai visite come guida…”.  
-  3. Esito: consultazione vuota.
-
 ### Regole di business / vincoli
 - RB1: la stampa mostra anche iscrizioni per trasparenza operativa.
 
@@ -980,12 +718,6 @@
 2. Il sistema legge `archivioStorico.json`.
 3. Il sistema stampa l’oggetto archivio (tramite `toString()`).
 
-### Flussi alternativi / eccezioni
-- **A1 — Errore I/O**:  
-  1. Condizione: fallisce la lettura del file.  
-  2. Passi: stack trace.  
-  3. Esito: consultazione fallita.
-
 ### Regole di business / vincoli
 - RB1: l’archivio contiene almeno “tipi visita scaduti” e “visite effettuate” (persistite).
 
@@ -1000,23 +732,3 @@
   > Nota: non forniti.
 
 ---
-
-# Scostamenti e ambiguità
-
-## 1) “Riapri raccolta disponibilità (mese successivo)” sembra non funzionare come etichetta promette
-- Nel menu configuratore attività compare la voce: **“Riapri raccolta disponibilità (MESE SUCCESSIVO)”** (`MenuConfiguratore.menuAttivita()`).
-- Ma `MenuConfiguratore.riapriRaccoltaMeseSuccessivo()`:
-  - richiede **prima** che `stato.isPianoProdotto()` sia `true`,
-  - poi chiama `GestoreDati.riapriRaccoltaMeseSuccessivo()`.
-- Tuttavia `GestoreDati.riapriRaccoltaMeseSuccessivo()` **rifiuta** se `stato.isPianoProdotto()` è `true` (“Piano già prodotto… la raccolta per questo mese non si riapre.”) e **non sposta** `meseRaccolta` al mese successivo.
-- Effetto pratico: con i controlli attuali, la voce rischia di essere un “vicolo cieco” (non apre nulla).
-
-## 2) Archivio storico stampato incompleto rispetto ai dati memorizzati
-- `ArchivioStorico` include sia `tipiVisitaScaduti` sia `istanzeEffettuate`.
-- Però `ArchivioStorico.toString()` stampa solo i **tipi visita scaduti**, e `MenuConfiguratore.stampaArchivio()` usa `toString()`.
-- Effetto: l’utente non vede le **visite effettuate** anche se vengono archiviate tramite `GestoreDati.archiviaVisitaEffettuata()`.
-
-## 3) Ramo “visita == null” nella creazione luogo+visita non attivabile dai flussi visibili
-- In `MenuConfiguratore.creaLuogoConVisitaObbligatoria()` esiste gestione di `visita == null` che porta a rimuovere il luogo.
-- Ma `creaVisita()` nel codice mostrato **non ritorna mai `null`**.
-- Interpretazione: codice difensivo o residuo di versioni precedenti.
