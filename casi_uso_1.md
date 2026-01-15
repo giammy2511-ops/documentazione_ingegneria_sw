@@ -494,18 +494,3 @@
 - **Requisiti/slide:** non forniti
 
 ---
-
-# Scostamenti e ambiguità
-
-1. **Messaggio “Utente non attivo” nel login, ma nessun controllo `attivo` sul configuratore**
-   - In login si stampa “Utente non attivo o credenziali errate.”, però `GestoreDati.autentica(...)` verifica solo username/password e ruolo `"configuratore"`, senza usare un flag “attivo”.
-
-2. **Voce “Visualizzare stato delle visite” non implementata**
-   - Il menu generale contiene “Visualizzare stato delle visite”, ma l’azione stampa solo “(Versione 1: stati non ancora gestiti)”.
-   - Esiste un enum `StatiVisita`, ma nella classe `Visita` non risulta un campo stato né logica di transizione.
-
-3. **Rollback luogo in UC06: ramo `visita == null` improbabile con il codice attuale**
-   - `creaVisita(...)` restituisce sempre una nuova `Visita` (non ha percorsi di annullamento), ma i chiamanti gestiscono il caso `null` come annullamento: oggi sembra un residuo o una funzionalità prevista ma non presente.
-
-4. **“Max iscrivibili da fruitore” gestito come dato generale, ma senza vincoli di validazione**
-   - Il valore viene letto/scritto come intero senza controlli (es. non negatività). Se i requisiti prevedono vincoli, non sono applicati qui.
