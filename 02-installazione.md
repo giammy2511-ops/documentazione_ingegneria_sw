@@ -3,55 +3,14 @@
 ## 2.1 Requisiti software
 - **JDK**: Java 17 (consigliato) o comunque una versione compatibile con `java.time` e record (il progetto usa `record`).
 - **Sistema operativo**: Windows / macOS / Linux (qualsiasi, purché supporti la JVM).
-- **Dipendenze** (necessarie a compilare/eseguire):
-  - `it.unibs.fp.mylib` (classi `InputDati`, `MyMenu`) – libreria usata per input e menù console;
-  - Jackson:
-    - `jackson-core`, `jackson-databind`, `jackson-annotations`,
-    - `jackson-datatype-jsr310` (supporto a `LocalDate`, `YearMonth`, ecc.).
 
-> Se il progetto è consegnato con una cartella `lib/` contenente i `.jar`, usarla nel classpath. In alternativa, usare Maven/Gradle (se presenti i file di build).
 
-## 2.2 Struttura consigliata del progetto
-Esempio (adattare ai vostri nomi cartelle):
-```
-project/
-  src/
-    ingegneriaSoftware/
-      Main.java
-      ...
-  lib/
-    mylib.jar
-    jackson-*.jar
-  DATA/            # creato automaticamente se mancante
-```
-L’applicazione cerca la cartella dati **relativa alla directory di esecuzione**: `./DATA`.
-
-## 2.3 Compilazione (senza tool di build)
-Da cartella `project/`:
-
-### Linux/macOS (bash)
+## 2.4 Esecuzione tramite JAR
+JAR eseguibile (fat‑jar o con manifest):
 ```bash
-mkdir -p out
-javac -cp "lib/*" -d out $(find src -name "*.java")
+java -jar versionex.jar
 ```
-Esecuzione:
-```bash
-java -cp "out:lib/*" ingegneriaSoftware.Main
-```
-
-### Windows (PowerShell)
-```powershell
-mkdir out
-javac -cp "lib/*" -d out (Get-ChildItem -Recurse -Filter *.java src | % FullName)
-java -cp "out;lib/*" ingegneriaSoftware.Main
-```
-
-## 2.4 Esecuzione tramite JAR (se previsto)
-Se avete un JAR eseguibile (fat‑jar o con manifest):
-```bash
-java -jar nomefile.jar
-```
-**Importante**: eseguire sempre dalla directory che contiene (o può creare) la cartella `DATA`, oppure modificare il path nel codice (`Main` → `caricaDaDirectory`).
+**Importante**: eseguire sempre dalla directory che contiene (o può creare) la cartella `DATA`.
 
 ## 2.5 Struttura dei file e dati persistenti
 La cartella dati è creata/gestita da `FileIO`. I nomi file sono fissi:
