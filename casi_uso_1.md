@@ -13,7 +13,7 @@
 
 # Elenco casi d’uso (tabella)
 
-| ID   | Titolo | Attore primario | Priorità | Stato |
+| ID   | Titolo | Attore primario |
 |------|--------|------------------|----------|-------|
 | UC01 | Avviare applicazione e caricare dati persistenti | Sistema 
 | UC02 | Autenticarsi come configuratore | Configuratore 
