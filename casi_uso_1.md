@@ -15,20 +15,20 @@
 
 | ID   | Titolo | Attore primario | Priorità | Stato |
 |------|--------|------------------|----------|-------|
-| UC01 | Avviare applicazione e caricare dati persistenti | Sistema | Alta | da codice |
-| UC02 | Autenticarsi come configuratore | Configuratore | Alta | da codice |
-| UC03 | Cambiare credenziali al primo accesso | Configuratore | Media | da codice |
-| UC04 | Inserire o visualizzare dati generali | Configuratore | Alta | da codice |
-| UC05 | Navigare il menù del configuratore | Configuratore | Alta | da codice |
-| UC06 | Creare luogo con prima visita obbligatoria | Configuratore | Alta | da codice |
-| UC07 | Creare visita e associarla obbligatoriamente a un luogo | Configuratore | Alta | da codice |
-| UC08 | Gestire sovrapposizione (overlap) in creazione visita | Configuratore | Alta | da codice |
-| UC09 | Aggiungere una data preclusa (mese target) | Configuratore | Media | da codice |
-| UC10 | Visualizzare date precluse (mese target) | Configuratore | Bassa | da codice |
-| UC11 | Modificare “max iscrivibili da fruitore” | Configuratore | Media | da codice |
-| UC12 | Visualizzare volontari attivi e tipi visita associati | Configuratore | Media | da codice |
-| UC13 | Visualizzare luoghi attivi (visitabili) | Configuratore | Bassa | da codice |
-| UC14 | Visualizzare tipi visita attivi (per luogo) e consultare archivio storico | Configuratore | Media | da codice |
+| UC01 | Avviare applicazione e caricare dati persistenti | Sistema 
+| UC02 | Autenticarsi come configuratore | Configuratore 
+| UC03 | Cambiare credenziali al primo accesso | Configuratore 
+| UC04 | Inserire o visualizzare dati generali | Configuratore 
+| UC05 | Navigare il menù del configuratore | Configuratore 
+| UC06 | Creare luogo con prima visita obbligatoria | Configuratore 
+| UC07 | Creare visita e associarla obbligatoriamente a un luogo | Configuratore 
+| UC08 | Gestire sovrapposizione (overlap) in creazione visita | Configuratore 
+| UC09 | Aggiungere una data preclusa (mese target) | Configuratore 
+| UC10 | Visualizzare date precluse (mese target) | Configuratore 
+| UC11 | Modificare “max iscrivibili da fruitore” | Configuratore 
+| UC12 | Visualizzare volontari attivi e tipi visita associati | Configuratore 
+| UC13 | Visualizzare luoghi attivi (visitabili) | Configuratore 
+| UC14 | Visualizzare tipi visita attivi (per luogo) e consultare archivio storico | Configuratore 
 
 ---
 
