@@ -51,12 +51,6 @@
    2. Se un tipo visita risulta non attivo, lo sposta nell’archivio storico e lo rimuove dalla lista delle visite attive.
 6. Il sistema prosegue con UC02 (login).
 
-### Flussi alternativi / eccezioni
-- **A1 — Errore I/O in lettura/scrittura**:
-  1. Condizione: `IOException` durante letture o salvataggi.
-  2. Passi: il sistema stampa stack trace.
-  3. Esito: l’avvio può risultare incompleto o incoerente.
-
 ### Regole di business / vincoli
 - RB1: Un tipo visita è “scaduto” se la sua `dataFine` è **prima** di “oggi” (quindi non è più attivo).
 
@@ -64,10 +58,6 @@
 - Input: file su `./DATA` (utenti, luoghi, visite, date precluse, archivio).  
 - Output: strutture dati in memoria; eventuali file aggiornati (visite e archivio).  
 - Entità/modelli: `GestoreDati`, `FileIO`, `Luogo`, `Visita`, `ArchivioStorico`.
-
-### Tracciabilità
-- **Codice:** `Main.main`, `GestoreDati.caricaDaDirectory`, `GestoreDati.sincronizzaStatiAttiviEArchivio`, `Visita.isScaduta`, `Visita.aggiornaAttivoDaOggi`, `FileIO.*`  
-- **Requisiti/slide:** non forniti
 
 ---
 
@@ -86,11 +76,6 @@
 3. Il sistema accetta l’accesso solo se l’utente ha ruolo `"configuratore"`.
 4. Se l’utente è al primo accesso, il sistema avvia UC03, altrimenti passa a UC04.
 
-### Flussi alternativi / eccezioni
-- **A1 — Credenziali errate o ruolo non ammesso**:
-  1. Condizione: nessun utente corrisponde a username/password con ruolo `"configuratore"`.
-  2. Passi: il sistema stampa “Utente non attivo o credenziali errate.”.
-  3. Esito: ritorno al passo 1.
 
 ### Regole di business / vincoli
 - RB1: Solo ruolo `"configuratore"` può autenticarsi in questa versione.
@@ -126,20 +111,6 @@
 4. Il sistema salva su file l’elenco utenti.
 5. Il sistema stampa conferma di avvenuto aggiornamento.
 
-### Flussi alternativi / eccezioni
-- **A1 — Username già esistente**:
-  1. Condizione: username inserito già presente tra gli utenti (e diverso dall’attuale).
-  2. Passi: messaggio di errore.
-  3. Esito: ritorno al passo 1.
-- **A2 — Password uguale alla precedente**:
-  1. Condizione: nuova password == password attuale.
-  2. Passi: messaggio “La nuova password deve essere diversa dalla precedente.”
-  3. Esito: ritorno al passo 1.
-- **A3 — Errore in salvataggio utenti**:
-  1. Condizione: `IOException`.
-  2. Passi: stack trace.
-  3. Esito: UC03 considerato fallito e ripetuto dal sistema (loop finché non riesce).
-
 ### Regole di business / vincoli
 - RB1: Username univoco nel sistema.  
 - RB2: Password nuova diversa dalla precedente.
@@ -174,11 +145,6 @@
    2. il configuratore inserisce il valore max;
    3. il sistema salva i dati generali.
 
-### Flussi alternativi / eccezioni
-- **A1 — Errore I/O in lettura/scrittura**:
-  1. Condizione: `IOException`.
-  2. Passi: stack trace.
-  3. Esito: i dati generali potrebbero rimanere non impostati.
 
 ### Regole di business / vincoli
 - RB1: Non risultano vincoli applicati sul valore max (es. > 0): viene accettato qualunque intero.
@@ -214,11 +180,6 @@
    - se “Setup iniziale” → usa UC06 o UC07 (in base alla scelta successiva).
 4. Il configuratore può uscire con scelta `0`.
 
-### Flussi alternativi / eccezioni
-- **A1 — Scelta non disponibile**:
-  1. Condizione: input non previsto dal menu.
-  2. Passi: il sistema stampa “Scelta non disponibile”.
-  3. Esito: ritorno al passo 2.
 
 ### Regole di business / vincoli
 - RB1: “Setup iniziale” appare solo se non ci sono luoghi con visite associate.
@@ -250,24 +211,6 @@
 4. Il sistema avvia la creazione della visita associata (dati visita + volontari + scheduling).
 5. Il sistema tenta di aggiungere la visita al luogo verificando il vincolo di non sovrapposizione.
 6. Se la visita viene aggiunta correttamente, il sistema salva e conferma l’inserimento.
-
-### Flussi alternativi / eccezioni
-- **A1 — Luogo duplicato (stesso ID)**:
-  1. Condizione: esiste un luogo con stesso ID (derivato da nome+coordinate).
-  2. Passi: il sistema informa e richiede reinserimento dati luogo.
-  3. Esito: ritorno al passo 1.
-- **A2 — Overlap rilevato in aggiunta visita**:
-  1. Condizione: l’aggiunta visita fallisce per sovrapposizione con altra visita dello stesso luogo.
-  2. Passi: il sistema attiva UC08.
-  3. Esito: in base alla scelta, si reinserisce solo lo scheduling o si annulla.
-- **A3 — Annullamento dopo creazione luogo (rollback luogo)**:
-  1. Condizione: l’utente annulla a seguito di overlap (UC08 → annulla).
-  2. Passi: il sistema rimuove il luogo appena creato e salva l’elenco luoghi.
-  3. Esito: nessun luogo/visita aggiunti in modo definitivo.
-- **A4 — Errore I/O**:
-  1. Condizione: `IOException` durante salvataggi.
-  2. Passi: stack trace.
-  3. Esito: stato persistito può risultare incompleto.
 
 ### Regole di business / vincoli
 - RB1: Un luogo è duplicato se ha lo stesso ID (ID derivato da nome e coordinate).  
@@ -312,28 +255,6 @@
 4. Il sistema tenta di aggiungere la visita al luogo verificando il vincolo overlap.
 5. Se l’aggiunta è valida, il sistema salva e conferma.
 
-### Flussi alternativi / eccezioni
-- **A1 — Nessun luogo esistente**:
-  1. Condizione: lista luoghi vuota.
-  2. Passi: il sistema informa e devia a UC06 (creazione nuovo luogo + visita).
-  3. Esito: UC06 gestisce l’intero flusso.
-- **A2 — Utente torna indietro dalla scelta luogo**:
-  1. Condizione: scelta `0` nel menu di selezione luogo.
-  2. Passi: il sistema interrompe il ramo “luogo esistente”.
-  3. Esito: ritorno al menu precedente.
-- **A3 — Titolo già usato nello stesso luogo**:
-  1. Condizione: esiste già una visita con stesso titolo nello stesso luogo.
-  2. Passi: il sistema richiede reinserimento del titolo.
-  3. Esito: ritorno al sotto-passo “titolo”.
-- **A4 — Creazione nuovo volontario fallisce**:
-  1. Condizione: errore I/O nel salvataggio credenziali del volontario.
-  2. Passi: messaggio di errore e stack trace; il volontario non viene creato.
-  3. Esito: la selezione volontari prosegue senza quel volontario (l’utente può selezionarne altri).
-- **A5 — Errore I/O**:
-  1. Condizione: `IOException`.
-  2. Passi: stack trace.
-  3. Esito: persistenza non garantita.
-
 ### Regole di business / vincoli
 - RB1: Titolo visita univoco all’interno dello stesso luogo.  
 - RB2: In fase di selezione volontari è obbligatorio selezionare almeno un volontario.  
@@ -365,14 +286,6 @@
 2. Il configuratore sceglie di modificare lo scheduling.
 3. Il sistema richiede di reinserire solo: date/ora/durata/giorni.
 4. Il sistema riprova l’aggiunta della visita al luogo.
-
-### Flussi alternativi / eccezioni
-- **A1 — Annullamento**:
-  1. Condizione: il configuratore seleziona `0`.
-  2. Passi: il sistema annulla la creazione della visita.
-  3. Esito:
-     - se UC07: nessuna visita aggiunta;
-     - se UC06: viene eseguito rollback del luogo appena creato (rimozione + salvataggio luoghi).
 
 ### Regole di business / vincoli
 - RB1: Il sistema non consente overlap tra visite dello stesso luogo nei giorni in comune del periodo.
@@ -408,16 +321,6 @@
 6. Il sistema aggiunge la data all’insieme in memoria.
 7. Il sistema salva la data su file in append.
 
-### Flussi alternativi / eccezioni
-- **A1 — Data già preclusa**:
-  1. Condizione: la data è già presente nell’insieme.
-  2. Passi: il sistema stampa “Data già preclusa.”
-  3. Esito: ritorno al passo 3.
-- **A2 — Errore in append su file**:
-  1. Condizione: `IOException` in append.
-  2. Passi: stack trace.
-  3. Esito: la data resta in memoria, ma la persistenza non è garantita.
-
 ### Regole di business / vincoli
 - RB1: Le date precluse gestite da questo menu sono limitate al **mese target** calcolato (non è un inserimento “libero” su qualunque data).  
 - RB2: Non sono ammessi duplicati nello stesso insieme.
@@ -450,12 +353,6 @@
    - l’elenco delle date, oppure
    - un messaggio che indica che non ci sono date precluse per quel mese.
 
-### Flussi alternativi / eccezioni
-- **A1 — Lista vuota**:
-  1. Condizione: nessuna data preclusa nel mese target.
-  2. Passi: stampa “Non ci sono date precluse per …”.
-  3. Esito: fine UC.
-
 ### Regole di business / vincoli
 - RB1: La visualizzazione è limitata al mese target calcolato dal sistema.
 
@@ -483,12 +380,6 @@
 1. Il sistema legge i dati generali correnti.
 2. Il configuratore inserisce un nuovo valore intero per il max.
 3. Il sistema salva i dati generali con lo stesso ambito territoriale e il nuovo max.
-
-### Flussi alternativi / eccezioni
-- **A1 — Errore I/O**:
-  1. Condizione: `IOException` in lettura o salvataggio.
-  2. Passi: stack trace.
-  3. Esito: valore non aggiornato.
 
 ### Regole di business / vincoli
 - RB1: Non risulta una validazione sul nuovo max (può essere anche non positivo).
@@ -523,16 +414,6 @@
 5. Il sistema stampa, per ogni volontario:
    - “(nessun tipo visita attivo)” se lista vuota, altrimenti la lista titoli.
 
-### Flussi alternativi / eccezioni
-- **A1 — Nessun tipo visita**:
-  1. Condizione: `calendario.getVisite() == null`.
-  2. Passi: stampa messaggio dedicato.
-  3. Esito: fine UC.
-- **A2 — Nessun volontario attivo**:
-  1. Condizione: la mappa iniziale è vuota.
-  2. Passi: stampa messaggio dedicato.
-  3. Esito: fine UC.
-
 ### Regole di business / vincoli
 - RB1: Vengono considerati solo volontari `attivo=true`.  
 - RB2: Vengono considerati solo tipi visita `attivo=true`.
@@ -562,11 +443,6 @@
 2. Se la lista è vuota, il sistema stampa “Non esistono luoghi attivi.”.
 3. Altrimenti il sistema stampa il nome di ciascun luogo attivo.
 
-### Flussi alternativi / eccezioni
-- **A1 — Nessun luogo attivo**:
-  1. Condizione: filtro produce lista vuota.
-  2. Passi: stampa messaggio dedicato.
-  3. Esito: fine UC.
 
 ### Regole di business / vincoli
 - RB1: Solo luoghi `attivo=true` vengono mostrati.
@@ -601,15 +477,6 @@
    2. per ogni visita attiva, una riga con versione “semplificata” dei dati (`toStringSemplificato`).
 4. Se non è stata trovata alcuna visita attiva in alcun luogo, stampa “Non esistono tipi di visita attivi.”.
 
-### Flussi alternativi / eccezioni
-- **A1 — Nessuna visita attiva in nessun luogo**:
-  1. Condizione: nessun luogo attivo contiene visite attive.
-  2. Passi: stampa messaggio dedicato.
-  3. Esito: fine UC.
-- **A2 — Consultazione archivio: errore I/O**:
-  1. Condizione: `IOException` in lettura archivio.
-  2. Passi: stack trace.
-  3. Esito: archivio non stampato.
 
 ### Regole di business / vincoli
 - RB1: In elenco tipi visita vengono mostrate solo visite `attivo=true` e luoghi `attivo=true`.  
